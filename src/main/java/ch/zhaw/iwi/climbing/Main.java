@@ -82,9 +82,9 @@ public class Main  {
 
 			// station init
 			Object lock = new Object();
-			WebDownloadCallback callback = new WebDownloadCallback(selectedUrl);
-			SIStationSerialPortHandler stationHandler = new SIStationSerialPortHandler(callback, lock, serialPort);
-			SISerialPortListener serialPortListener = new SISerialPortListener(callback);
+			WebDownloadSession downloadSession = new WebDownloadSession(selectedUrl);
+			SIStationSerialPortHandler stationHandler = new SIStationSerialPortHandler(downloadSession, lock, serialPort);
+			SISerialPortListener serialPortListener = new SISerialPortListener(downloadSession);
 			serialPortListener.installHandler(stationHandler);
 
 			// add single serial port listener (options are done by handlers)
@@ -108,7 +108,7 @@ public class Main  {
 			}
 
 			// station is initialized, now listen to cards
-			SICardSerialPortHandler cardHandler = new SICardSerialPortHandler(new Date(), callback, serialPort);
+			SICardSerialPortHandler cardHandler = new SICardSerialPortHandler(new Date(), downloadSession, serialPort);
 			serialPortListener.installHandler(cardHandler);
 			
 			// ***

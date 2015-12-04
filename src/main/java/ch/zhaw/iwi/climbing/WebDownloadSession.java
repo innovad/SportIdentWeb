@@ -4,15 +4,15 @@ import java.awt.Desktop;
 import java.net.URI;
 import java.util.List;
 
-import com.fmila.sportident.DownloadCallback;
+import com.fmila.sportident.DownloadSession;
 import com.fmila.sportident.bean.Punch;
 
 
-public class WebDownloadCallback implements DownloadCallback {
+public class WebDownloadSession implements DownloadSession {
 
 	private String url;
 
-	public WebDownloadCallback(String url) {
+	public WebDownloadSession(String url) {
 		super();
 		this.url = url;
 	}
