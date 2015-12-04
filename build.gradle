@@ -1,0 +1,21 @@
+apply plugin: 'java'
+
+repositories {
+    jcenter()
+    maven { url "http://www.sparetimelabs.com/maven2" }
+}
+
+dependencies {
+    compile project(':4milaSI')
+    compile 'org.slf4j:slf4j-api:1.7.12'
+    testCompile 'junit:junit:4.12'
+}
+
+jar {
+  manifest {
+    attributes 'Main-Class': 'ch.zhaw.iwi.climbing.Main'
+  }
+  from {
+    configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+  }
+}
