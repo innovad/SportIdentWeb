@@ -3,6 +3,7 @@ package ch.zhaw.iwi.climbing;
 import java.awt.Desktop;
 import java.net.URI;
 import java.util.List;
+import java.util.Scanner;
 
 import com.fmila.sportident.DownloadSession;
 import com.fmila.sportident.bean.Punch;
@@ -11,10 +12,12 @@ import com.fmila.sportident.bean.Punch;
 public class WebDownloadSession implements DownloadSession {
 
 	private String url;
+	private Scanner scanner;
 
-	public WebDownloadSession(String url) {
+	public WebDownloadSession(String url, Scanner scanner) {
 		super();
 		this.url = url;
+		this.scanner = scanner;
 	}
 
 	@Override
@@ -60,6 +63,17 @@ public class WebDownloadSession implements DownloadSession {
 	@Override
 	public void handleCardRemoved() {
 	    System.out.println("===> Waiting for cards ([q] for quit/exit): ");
+	}
+	
+	@Override
+	public void waitForCards() {
+	    System.out.println("===> Waiting for cards ([q] for quit/exit): ");
+		scanner.next();
+	}
+	
+	@Override
+	public void close() {
+		System.out.println("Finished.");
 	}
 
 }
