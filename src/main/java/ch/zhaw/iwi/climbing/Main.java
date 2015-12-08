@@ -28,9 +28,11 @@ public class Main {
 		}
 
 		// Ask URL
-		String testUrl = "http://localhost/kletterhalle/upload.php";
+		String testUrl1 = "http://localhost/kletterhalle/upload.php";
+		String testUrl2 = "http://localhost/KletterhalleProjekt/functions/upload/upload.php";
 		System.out.println("Select an URL: ");
-		System.out.println("[d] " + testUrl);
+		System.out.println("[1] " + testUrl1);
+		System.out.println("[2] " + testUrl2);
 		System.out.println("[q] quit/exit");
 		System.out.println("or enter another URL: ");
 		String selectedUrl = scanner.next();
@@ -38,8 +40,11 @@ public class Main {
 			System.out.println("Finished.");
 			System.exit(0);
 		}
-		if (selectedUrl.toLowerCase().equals("d")) {
-			selectedUrl = testUrl;
+		if (selectedUrl.toLowerCase().equals("1")) {
+			selectedUrl = testUrl1;
+		}
+		else if (selectedUrl.toLowerCase().equals("2")) {
+			selectedUrl = testUrl2;
 		}
 
 		DownloadStation station = new DownloadStation(selectedPort, 38400, new WebDownloadSession(selectedUrl, scanner));

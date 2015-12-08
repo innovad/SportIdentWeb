@@ -1,7 +1,6 @@
 package ch.zhaw.iwi.climbing;
 
-import java.awt.Desktop;
-import java.net.URI;
+import java.net.URL;
 import java.util.List;
 import java.util.Scanner;
 
@@ -41,17 +40,17 @@ public class WebDownloadSession implements DownloadSession {
 			
 
 			// open browser window
-			if(Desktop.isDesktopSupported())
-			{
-				Desktop.getDesktop().browse(new URI(request));
-			}			
+//			if(Desktop.isDesktopSupported())
+//			{
+//				Desktop.getDesktop().browse(new URI(request));
+//			}			
 		    
-//			System.out.println("Send request GET " + request);
-//			URL u = new URL(request);
-//			Scanner scanner = new Scanner(u.openStream());
-//			String r = scanner.useDelimiter("\\Z").next();
-//			scanner.close();
-//			System.out.println("http result: " + r);
+			System.out.println("Send request GET " + request);
+			URL u = new URL(request);
+			Scanner scanner = new Scanner(u.openStream());
+			String r = scanner.useDelimiter("\\Z").next();
+			scanner.close();
+			System.out.println("http result: " + r);
 		} catch (Exception e) {
 			// TODO
 			e.printStackTrace();
