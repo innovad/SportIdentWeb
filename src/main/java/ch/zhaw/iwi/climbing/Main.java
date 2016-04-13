@@ -30,7 +30,7 @@ public class Main {
 			selectedUrl = queryUrl(scanner);
 		}
 
-		DownloadStation station = new DownloadStation(selectedPort, 38400, new WebDownloadSession(selectedUrl, scanner));
+		DownloadStation station = new DownloadStation(selectedPort, 38400, null, new WebDownloadSession(selectedUrl, scanner));
 		station.open();
 
 		scanner.close();
