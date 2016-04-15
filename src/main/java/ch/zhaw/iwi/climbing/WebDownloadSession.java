@@ -36,13 +36,13 @@ public class WebDownloadSession implements DownloadSession {
 			punchList.append(p.getControlNo());
 			punchList.append("-");
 			punchList.append(p.getRawTime());
-			punchList.append(";");
+			punchList.append("/");
 		}
 		System.out.println("Read Controls: " + punchList.toString());
 
 		// send URL to localhost server
 		try {
-			String request = url + "?card=" + cardNo + "&punches=" + punchList.toString();
+			String request = url + "/" + cardNo + "/" + punchList.toString();
 					    
 			System.out.println("Send request GET " + request);
 			URL u = new URL(request);
