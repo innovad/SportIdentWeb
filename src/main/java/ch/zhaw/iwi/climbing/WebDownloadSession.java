@@ -42,7 +42,7 @@ public class WebDownloadSession implements DownloadSession {
 
 		// send URL to localhost server
 		try {
-			String request = url + "/" + cardNo + "/" + punchList.toString();
+			String request = url + cardNo + "/" + punchList.toString();
 					    
 			System.out.println("Send request GET " + request);
 			URL u = new URL(request);
