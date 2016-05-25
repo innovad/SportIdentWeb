@@ -61,7 +61,7 @@ public class WebDownloadSession implements DownloadSession {
 					System.out.println("Control Number: " + punch.getControlNo());
 					System.out.println("Raw time (ms): " + punch.getRawTime());
 					Instant instant = Instant.ofEpochMilli(punch.getRawTime());
-					System.out.println("Formatted time: " + LocalDateTime.ofInstant(instant, ZoneId.systemDefault()).toString());
+					System.out.println("Formatted time: " + LocalDateTime.ofInstant(instant, ZoneId.systemDefault()).toString() + "." + String.format("%03d", punch.getRawTime() % 1000));
 				}
 				System.out.println("*************************");
 			}
