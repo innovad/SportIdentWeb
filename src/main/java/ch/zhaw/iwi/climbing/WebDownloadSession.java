@@ -1,6 +1,9 @@
 package ch.zhaw.iwi.climbing;
 
 import java.net.URL;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -9,14 +12,13 @@ import java.util.logging.Logger;
 import com.fmila.sportident.DownloadSession;
 import com.fmila.sportident.bean.Punch;
 
-
 public class WebDownloadSession implements DownloadSession {
 
 	private String url;
 	private Scanner scanner;
-	
-	private final static Logger LOGGER = Logger.getLogger(WebDownloadSession.class.getName()); 
-	
+
+	private final static Logger LOGGER = Logger.getLogger(WebDownloadSession.class.getName());
+
 	public WebDownloadSession(String url, Scanner scanner) {
 		super();
 		this.url = url;
@@ -42,32 +44,45 @@ public class WebDownloadSession implements DownloadSession {
 
 		// send URL to localhost server
 		try {
-			String request = url + cardNo + "/" + punchList.toString();
-					    
-			System.out.println("Send request GET " + request);
-			URL u = new URL(request);
-			Scanner scanner = new Scanner(u.openStream());
-			String r = scanner.useDelimiter("\\Z").next();
-			scanner.close();
-			System.out.println("http result: " + r);
+			if (url.length() > 0) {
+				String request = url + cardNo + "/" + punchList.toString();
+
+				System.out.println("Send request GET " + request);
+				URL u = new URL(request);
+				Scanner scanner = new Scanner(u.openStream());
+				String r = scanner.useDelimiter("\\Z").next();
+				scanner.close();
+				System.out.println("http result: " + r);
+			} else {
+				System.out.println("*************************");
+				System.out.println("Debug mode, Card Number: " + cardNo);
+				for (Punch punch : controlData) {
+					System.out.println("Sort Code: " + punch.getSortCode());
+					System.out.println("Control Number: " + punch.getControlNo());
+					System.out.println("Raw time (ms): " + punch.getRawTime());
+					Instant instant = Instant.ofEpochMilli(punch.getRawTime());
+					System.out.println("Formatted time: " + LocalDateTime.ofInstant(instant, ZoneId.systemDefault()).toString());
+				}
+				System.out.println("*************************");
+			}
 		} catch (Exception e) {
 			LOGGER.log(Level.SEVERE, "Failed handling data", e);
 		}
 
 		return true;
 	}
-	
+
 	@Override
 	public void handleCardRemoved() {
-	    System.out.println("===> Waiting for cards ([q] for quit/exit): ");
+		System.out.println("===> Waiting for cards ([q] for quit/exit): ");
 	}
-	
+
 	@Override
 	public void waitForCards() {
-	    System.out.println("===> Waiting for cards ([q] for quit/exit): ");
+		System.out.println("===> Waiting for cards ([q] for quit/exit): ");
 		scanner.next();
 	}
-	
+
 	@Override
 	public void close() {
 		System.out.println("Finished.");

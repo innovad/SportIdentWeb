@@ -64,6 +64,7 @@ public class Main {
 		String testUrl6 = "http://aranea.herokuapp.com/src/backend/service.php/scan/upload/";
 
 		System.out.println("Select an URL: ");
+		System.out.println("[d] debug mode, prints to console");
 		System.out.println("[1] " + testUrl1);
 		System.out.println("[2] " + testUrl2);
 		System.out.println("[3] " + testUrl3);
@@ -77,7 +78,9 @@ public class Main {
 			System.out.println("Finished.");
 			System.exit(0);
 		}
-		if (selectedUrl.toLowerCase().equals("1")) {
+		if (selectedUrl.toLowerCase().equals("d")) {
+			selectedUrl = "";
+		} else if (selectedUrl.toLowerCase().equals("1")) {
 			selectedUrl = testUrl1;
 		} else if (selectedUrl.toLowerCase().equals("2")) {
 			selectedUrl = testUrl2;
