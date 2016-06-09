@@ -21,13 +21,19 @@ public class Main {
 		// List Serial Ports
 		String selectedPort = parameters.get(SERIALPORT);
 		if (selectedPort == null) {
-			selectedPort = queryPort(scanner);
+			selectedPort = System.getProperty(SERIALPORT);
+			if (selectedPort == null) {
+				selectedPort = queryPort(scanner);
+			}
 		}
 
 		// Ask URL
 		String selectedUrl = parameters.get(URL);
 		if (selectedUrl == null) {
-			selectedUrl = queryUrl(scanner);
+			selectedUrl = System.getProperty(URL);
+			if (selectedUrl == null) {
+				selectedUrl = queryUrl(scanner);
+			}
 		}
 
 		DownloadStation station = new DownloadStation(selectedPort, 38400, null, new WebDownloadSession(selectedUrl, scanner));
