@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 import com.fmila.sportident.DownloadPorts;
 import com.fmila.sportident.DownloadStation;
+import com.fmila.sportident.Version;
 
 public class Main {
 
@@ -13,9 +14,9 @@ public class Main {
 	private final static String URL = "url";
 
 	public static void main(String[] args) throws Exception {
-
+		System.out.println("Welcome to 4milaSI " + Version.getVersion() + " / " + " ClimberChallengeSI " + ch.zhaw.iwi.climbing.Version.getVersion());
+		
 		Map<String, String> parameters = parseArguments(args);
-
 		Scanner scanner = new Scanner(System.in);
 
 		// List Serial Ports
