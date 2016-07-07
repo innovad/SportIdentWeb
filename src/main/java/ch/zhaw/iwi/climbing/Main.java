@@ -15,7 +15,7 @@ public class Main {
 
 	public static void main(String[] args) throws Exception {
 		System.out.println("Welcome to 4milaSI " + Version.getVersion() + " / " + " ClimberChallengeSI " + ch.zhaw.iwi.climbing.Version.getVersion());
-		
+
 		Map<String, String> parameters = parseArguments(args);
 		Scanner scanner = new Scanner(System.in);
 
@@ -37,9 +37,19 @@ public class Main {
 			}
 		}
 
-		DownloadStation station = new DownloadStation(selectedPort, 38400, null, new WebDownloadSession(selectedUrl, scanner));
-		station.open();
+		// Ask AirMode
+		Boolean enableAirMode = null;
+		if (selectedUrl == null || selectedUrl.length() <= 0) {
+			String selectedAirMode = queryAirMode(scanner);
+			if (selectedAirMode.equalsIgnoreCase("disable")) {
+				enableAirMode = false;
+			} else if (selectedAirMode.equalsIgnoreCase("enable")) {
+				enableAirMode = true;
+			}
+		}
 
+		DownloadStation station = new DownloadStation(selectedPort, 38400, null, new WebDownloadSession(selectedUrl, scanner, enableAirMode));
+		station.open();
 		scanner.close();
 	}
 
@@ -80,7 +90,7 @@ public class Main {
 		System.out.println("[6] " + testUrl6);
 		System.out.println("[q] quit/exit");
 		System.out.println("or enter another URL: ");
-		selectedUrl = scanner.next();
+		selectedUrl = scanner.nextLine();
 		if (selectedUrl.toLowerCase().equals("q")) {
 			System.out.println("Finished.");
 			System.exit(0);
@@ -112,12 +122,37 @@ public class Main {
 
 		// Ask Port
 		System.out.println("Select a port [...] or [q] for quit/exit: ");
-		String selectedPort = scanner.next();
+		String selectedPort = scanner.nextLine();
 		if (selectedPort.toLowerCase().equals("q")) {
 			System.out.println("Finished.");
 			System.exit(0);
 		}
 		return selectedPort;
+	}
+
+	private static String queryAirMode(Scanner scanner) {
+		String selectedAirMode = "none";
+
+		String airMode1 = "Enable Air Mode";
+		String airMode2 = "Disable Air Mode";
+		String airMode3 = "None";
+
+		System.out.println("Select an Air Mode: ");
+		System.out.println("[e] " + airMode1);
+		System.out.println("[d] " + airMode2);
+		System.out.println("[n] " + airMode3);
+		System.out.println("[q] quit/exit");
+		selectedAirMode = scanner.next("[a-zA-Z]");
+		if (selectedAirMode.toLowerCase().equals("q")) {
+			System.out.println("Finished.");
+			System.exit(0);
+		}
+		if (selectedAirMode.toLowerCase().equals("e")) {
+			selectedAirMode = "enable";
+		} else if (selectedAirMode.toLowerCase().equals("d")) {
+			selectedAirMode = "disable";
+		}
+		return selectedAirMode;
 	}
 
 	private static void exitWithError(String message) {

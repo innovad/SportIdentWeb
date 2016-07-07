@@ -16,13 +16,15 @@ public class WebDownloadSession implements DownloadSession {
 
 	private String url;
 	private Scanner scanner;
+	private Boolean enableSiacAirMode;
 
 	private final static Logger LOGGER = Logger.getLogger(WebDownloadSession.class.getName());
 
-	public WebDownloadSession(String url, Scanner scanner) {
+	public WebDownloadSession(String url, Scanner scanner, Boolean enableSiacAirMode) {
 		super();
 		this.url = url;
 		this.scanner = scanner;
+		this.enableSiacAirMode = enableSiacAirMode;
 	}
 
 	@Override
@@ -32,7 +34,7 @@ public class WebDownloadSession implements DownloadSession {
 	}
 
 	@Override
-	public boolean handleData(String cardNo, List<Punch> controlData) {
+	public boolean handleData(String stationNo, String cardNo, List<Punch> controlData) {
 		StringBuilder punchList = new StringBuilder();
 		for (Punch p : controlData) {
 			punchList.append(p.getControlNo());
@@ -46,16 +48,16 @@ public class WebDownloadSession implements DownloadSession {
 		try {
 			if (url.length() > 0) {
 				String request = url + cardNo + "/" + punchList.toString();
-
+				// TODO add stationNo to request, parse request result and set SIAC on/off
 				System.out.println("Send request GET " + request);
 				URL u = new URL(request);
-				Scanner scanner = new Scanner(u.openStream());
-				String r = scanner.useDelimiter("\\Z").next();
-				scanner.close();
+				Scanner urlScanner = new Scanner(u.openStream());
+				String r = urlScanner.useDelimiter("\\Z").next();
+				urlScanner.close();
 				System.out.println("http result: " + r);
 			} else {
 				System.out.println("*************************");
-				System.out.println("Debug mode, Card Number: " + cardNo);
+				System.out.println("Debug mode, Station Number: " + stationNo + ", Card Number: " + cardNo);
 				for (Punch punch : controlData) {
 					System.out.println("Sort Code: " + punch.getSortCode());
 					System.out.println("Control Number: " + punch.getControlNo());
@@ -70,6 +72,11 @@ public class WebDownloadSession implements DownloadSession {
 		}
 
 		return true;
+	}
+	
+	@Override
+	public Boolean enableSiacAirMode() {
+		return enableSiacAirMode;
 	}
 
 	@Override
