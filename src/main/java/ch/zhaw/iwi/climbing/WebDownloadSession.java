@@ -47,14 +47,19 @@ public class WebDownloadSession implements DownloadSession {
 		// send URL to localhost server
 		try {
 			if (url.length() > 0) {
-				String request = url + cardNo + "/" + punchList.toString();
-				// TODO add stationNo to request, parse request result and set SIAC on/off
+				String request = url + stationNo + "/" + cardNo + "/" + punchList.toString();
 				System.out.println("Send request GET " + request);
 				URL u = new URL(request);
 				Scanner urlScanner = new Scanner(u.openStream());
-				String r = urlScanner.useDelimiter("\\Z").next();
+				String response = urlScanner.useDelimiter("\\Z").next();
 				urlScanner.close();
-				System.out.println("http result: " + r);
+				System.out.println("http result: " + response);
+				enableSiacAirMode = null;
+				if (response != null && response.equalsIgnoreCase("enable")) {
+					enableSiacAirMode = true;
+				} else if (response != null && response.equalsIgnoreCase("disable")) {
+					enableSiacAirMode = false;
+				}
 			} else {
 				System.out.println("*************************");
 				System.out.println("Debug mode, Station Number: " + stationNo + ", Card Number: " + cardNo);
@@ -73,7 +78,7 @@ public class WebDownloadSession implements DownloadSession {
 
 		return true;
 	}
-	
+
 	@Override
 	public Boolean enableSiacAirMode() {
 		return enableSiacAirMode;
