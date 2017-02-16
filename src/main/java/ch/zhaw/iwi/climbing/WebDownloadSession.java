@@ -78,6 +78,16 @@ public class WebDownloadSession implements DownloadSession {
 
 		return true;
 	}
+	
+	@Override
+	public void handleAutoSend(String cardNo, String controlNo, Punch punch) {
+		System.out.println("*************************");
+		System.out.println("Debug mode, Station Number: " + controlNo + ", Card Number: " + cardNo);
+		System.out.println("Raw time (ms): " + punch.getRawTime());
+		Instant instant = Instant.ofEpochMilli(punch.getRawTime());
+		System.out.println("Formatted time: " + LocalDateTime.ofInstant(instant, ZoneId.systemDefault()).toString() + "." + String.format("%03d", punch.getRawTime() % 1000));
+		System.out.println("*************************");
+	}
 
 	@Override
 	public Boolean enableSiacAirMode() {
