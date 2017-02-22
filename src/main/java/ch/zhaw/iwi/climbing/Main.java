@@ -12,6 +12,7 @@ public class Main {
 
 	private final static String SERIALPORT = "serialport";
 	private final static String URL = "url";
+	private final static String AIRMODE = "airmode";
 
 	public static void main(String[] args) throws Exception {
 		System.out.println("Welcome to 4milaSI " + Version.getVersion() + " / " + " ClimberChallengeSI " + ch.zhaw.iwi.climbing.Version.getVersion());
@@ -38,8 +39,11 @@ public class Main {
 		}
 
 		// Ask AirMode
-		Boolean enableAirMode = null;
-		if (selectedUrl == null || selectedUrl.length() <= 0) {
+		Boolean enableAirMode = parseAirMode(parameters.get(AIRMODE));
+		if (parameters.get(AIRMODE) == null) {
+			enableAirMode = parseAirMode(System.getProperty(AIRMODE));
+		}
+		if (parameters.get(AIRMODE) == null && System.getProperty(AIRMODE) == null) {
 			String selectedAirMode = queryAirMode(scanner);
 			if (selectedAirMode.equalsIgnoreCase("disable")) {
 				enableAirMode = false;
@@ -51,6 +55,17 @@ public class Main {
 		DownloadStation station = new DownloadStation(selectedPort, 38400, null, new WebDownloadSession(selectedUrl, scanner, enableAirMode));
 		station.open();
 		scanner.close();
+	}
+	
+	private static Boolean parseAirMode(String enableAirModeString) {
+		if (enableAirModeString != null) {
+			if (enableAirModeString.equalsIgnoreCase("enable")) {
+				return true;
+			} else if (enableAirModeString.equalsIgnoreCase("disable")) {
+				return false;
+			}
+		}
+		return null;
 	}
 
 	private static Map<String, String> parseArguments(String[] args) {
