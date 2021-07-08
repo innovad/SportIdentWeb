@@ -1,7 +1,6 @@
 GRADLE_BUILD_COMMANDS=org.eclipse.jdt.core.javabuilder
 GRADLE_NATURES=org.eclipse.jdt.core.javanature
 connection.arguments=
-connection.gradle.distribution=GRADLE_DISTRIBUTION(WRAPPER)
 connection.java.home=null
 connection.jvm.arguments=
 connection.project.dir=
