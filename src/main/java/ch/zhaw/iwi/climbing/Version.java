@@ -3,7 +3,7 @@ package ch.zhaw.iwi.climbing;
 public final class Version {
 
 	public static String getVersion() {
-		return "1.0.2";
+		return "1.0.4";
 	}
 
 }
